@@ -1,0 +1,10 @@
+# OpenRouter + Ollama 混合配置
+spring:
+  ai:
+    openai:
+      base-url: https://openrouter.ai
+      api-key: ${OPENROUTER_API_KEY}
+      chat:
+        completions-path: /api/v1/chat/completions
+        options:
+          model: qwen/qwen3-coder:free

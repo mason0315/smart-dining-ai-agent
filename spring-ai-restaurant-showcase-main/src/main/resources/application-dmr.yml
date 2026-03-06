@@ -1,0 +1,8 @@
+# Docker Model Runner (DMR) 专用配置
+spring:
+  ai:
+    openai:
+      base-url: http://localhost:12434/engines/
+      chat:
+        options:
+          model: llama3.2

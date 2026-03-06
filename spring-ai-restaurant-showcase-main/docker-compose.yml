@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: restaurant-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"

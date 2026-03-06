@@ -1,0 +1,79 @@
+spring:
+  application:
+    name: spring-ai-restaurant-showcase
+  main:
+    allow-bean-definition-overriding: true
+
+  docker:
+    compose:
+      enabled: true
+
+  # 数据源配置
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+  # OpenAI 配置
+  ai:
+    openai:
+      base-url: https://api.openai.com
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-5
+          temperature: 1
+      embedding:
+        options:
+          model: text-embedding-3-small  # 1536 维度
+
+    # Mistral AI 配置
+    mistral-ai:
+      api-key: ${MISTRAL_API_KEY:your-mistral-api-key}
+      chat:
+        options:
+          model: mistral-large-latest
+
+    # Ollama 配置
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: llama3.2
+      embedding:
+        options:
+          model: mxbai-embed-large
+
+  # PgVector 配置
+  vectorstore:
+    pgvector:
+      index-type: ivfflat
+      distance-type: cosine_distance
+      dimensions: 1024  # 匹配 Ollama mxbai-embed-large 模型的维度
+      initialize-schema: true  # 自动创建表结构
+      remove-existing-vector-store-table: false
+      # 确保表名正确
+      table-name: vector_store
+
+# Actuator 配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# 日志配置
+logging:
+  level:
+    cc.chensoul.springai.restaurant: DEBUG
+    org.springframework.ai: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
